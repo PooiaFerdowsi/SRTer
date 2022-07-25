@@ -1,10 +1,9 @@
 SRT files delay calculator
 ==========================
-This simple program requires: [1](#info)
-Following arguments
-	1. File (subtitle) to read data from
-	2. File (subtitle) to write data to
-	3. Delay (can be either negative or positive)
+This simple program requires [1](#info):
+1. File (subtitle) to read data from
+2. File (subtitle) to write data to
+3. Delay (can be either negative or positive)
 
 The program *adds* the value you gave it as delay to
 the timecodes of all frames of the subtitle in millisecond.
