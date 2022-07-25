@@ -1,7 +1,7 @@
 SRT files delay calculator
 ==========================
-This simple program required: [1](#info)
-
+This simple program requires: [1](#info)
+Following arguments
 	1. File (subtitle) to read data from
 	2. File (subtitle) to write data to
 	3. Delay (can be either negative or positive)
@@ -29,7 +29,7 @@ If you want to use this program:
 	* `python3 $filename.py`
 	* Defer to WWW if these didn't sufficed
 * Fill the requested question with your desired values
-	* First and second argument require file path and the\
+	* First and second argument require file path and the
 	the one requires an integer value
 * You nailed it!
 
@@ -55,7 +55,7 @@ LICENSE
 -------
 Usage is divided by two categories:
 
-NOTE: *in all conditions except Partial non-commercial \
+NOTE: *in all conditions except Partial non-commercial
 Author name and email must be mentioned*
 * Partial: a small amount of the code
 	* non-commercial use: It's free to use.
@@ -67,10 +67,10 @@ Author name and email must be mentioned*
 
 TODO
 ------
-- [] Raise different Exceptions for different situations \
+- [ ] Raise different Exceptions for different situations
 (Program raise `Exception` for all kind of Exceptions)
-- [] Write `hh:mm:ss,[0-9]{1,3}` instead of `h:m:s,ms`
-- [] Microsecond acts (and stands) for millisecond (micro = milli!)
+- [ ] Write `hh:mm:ss,[0-9]{1,3}` instead of `h:m:s,ms`
+- [ ] Microsecond acts (and stands) for millisecond (micro = milli!)
 
 Mechanisms
 ----------
@@ -123,11 +123,10 @@ math sums! instead it use the following solution wich reduce
 program boiler-plate:
 * the program converts `hh:mm:ss,ms` to pure millisecond
 	* `ms + ((h * 60 + m) * 60 + s) * 1000`
-* after the calculation is done,\
+* after the calculation is done,
  the program converts the result to `hh:mm:ss,ms` form
 
  The main cause for this solution is to reduce boiler-plate
 
 
-or [email][1] me
-[1]: (mailto:pooia.ferdowsi.is.developer@gmail.com)
+[1]: mailto:pooia.ferdowsi.is.developer@gmail.com
