@@ -62,7 +62,7 @@ Author name and email must be mentioned*
 
 * Total: a large amount or the complete code
 	* non-commercial use: Just [email][1] me.
-	* commercial use: [email][1] me and await my bid.
+	* commercial use: [email][1] me and await my allowance.
 
 TODO
 ------
