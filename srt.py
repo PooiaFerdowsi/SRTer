@@ -145,7 +145,7 @@ class Frame:
 
 
 ### functions to extract desired data from the argument $line ###
-def frame_number(line: str, *, timeout=100):
+def frame_number(line: str, *):
     """Try to extract frame number from the given line
     To do it, this function tries to convert the 'line'
     parameter to a positive integer.
@@ -198,13 +198,13 @@ the line at the point. it must be the current state of the line.
 
 Integer variable start with 'STATE_' are used to define line states.
 """
-STATE_BEGIN = -1 # it's first time to do any process on the file
+
 STATE_FRAME = 0 # it's frame number
 STATE_TIME = 1 # it's hh:mm:ss,ms --> hh:mm:ss,ms
 STATE_CAPTION = 2 # it's caption
 STATE_BLANK = 3 # it's blank line
 
-STATE = STATE_BEGIN # default status
+STATE = STATE_FRAME # default status
 EXPECTED = STATE_FRAME
 
 SUBTITLE = file2write(TO)
@@ -219,8 +219,7 @@ for line in read_file_splitted(FROM):
 
     # Find state of the line and do appropriate actions
     if EXPECTED == STATE_FRAME:
-        frame['number'] = frame_number(line) \
-        if STATE == STATE_BEGIN else frame_number(line, timeout=3)
+        frame['number'] = frame_number(line)
         STATE, EXPECTED = STATE_FRAME, STATE_TIME
     elif STATE == STATE_FRAME and EXPECTED == STATE_TIME:
         frame['timecodes'] = frame_timecode(line)
