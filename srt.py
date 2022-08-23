@@ -133,7 +133,7 @@ class Frame:
         f"{self.start.second},{self.start.microsecond}"\
         f" --> {self.end.hour}:{self.end.minute}:"\
         f"{self.end.second},{self.end.microsecond}"\
-        f"\n{self.caption}\n\t\n"
+        f"\n{self.caption}\n\n"
 
     def setTimecodes(self, start, end):
         if isinstance(start, time) and isinstance(end, time):
