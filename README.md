@@ -52,17 +52,15 @@ Feel a bit free to change `do(frame)`:
 
 LICENSE
 -------
-Usage is divided by two categories:
+If you considered to use this code, wonderful(!), then, take a look at the license.
 
-NOTE: *in all conditions except Partial non-commercial
-Author name and email must be mentioned*
-* Partial: a small amount of the code
-	* non-commercial use: It's free to use.
-	* commercial use: Just [email][1] me
+I urge to follow license, it's easy to stick to these principles and you also do not
+violate my rights!
 
-* Total: a large amount or the complete code
-	* non-commercial use: Just [email][1] me.
-	* commercial use: [email][1] me and await my allowance.
+License states that you:
+* can use this code for both commercial and non-commercial purposes.
+* must inform the author for commercial use.
+* must cite author name and at least one contact way with the author
 
 TODO
 ------
