@@ -2,19 +2,18 @@
 All rights are reserved for the Author.
 Author: Pooia Ferdowsi <pooia.ferdowsi.is.developer@gmail.com>
 You can find LICENSE in the README.md
-
 Ensure that you always have one and only one blankline between frames
 Ensure that the first line of the file is frame number
 Ensure that last frame has at least two blanklines after its caption
-
 NOTE: datetime.time.microsecond stands for millisecond
 """
 from datetime import time, timedelta
 import re
+import os
 
-FROM = "D:/srt.srt" # the file to read the subtitle from
-OFFSET = 0000 # time to add to timecode in miliseconds
-TO = "D:" # the file to write the subtitle to
+FROM = "" # the file to read the subtitle from
+OFFSET = 0 # time to add to timecode in miliseconds
+TO = "" # the file to write the subtitle to
 
 ############### UTILITY ################
 def read_file_splitted(path):
@@ -37,21 +36,67 @@ def parse_timecode(timecode):
 
 def isBlank(line) -> bool:
     return line.isspace() or not bool(line)
+    
+def isValidPath(path):
+	"""Check weather the given path is a path:
+	Note that this function do not test for the
+	existence of the file at the given location.
+	"""
+	# is 'path' string or not?
+	if type(path) != str:
+		return False
+	# else:
+	path = path.strip()
+	
+	dir_sep = "/\\" # the mark OS use to distinguish folders
+	if path[-1] in dir_sep:
+		return False # path must point to a file not a dir!
+	
+	# remove filename from foldernames
+	# 'f/hello/a.txt' ---> 'f/hello'
+	for i in range(1, len(path)):
+		if path[-i] in dir_sep:
+			path = path[:-i]
+			break
+	
+	if os.path.isdir(path):
+		return True
+		
+	return False
 
-# CUSTOMIZABLE: customize 'getInfo' func as you wish
+# CUSTOMIZABLE: customize 'getInfo' function as you wish
 def getInfo():
     """Read and assign the desired data
     The function assign the value acquired by the implemented
     method in this function to FROM, TO, and OFFSET variables
     """
-    # TODO: check answer more than now
     global FROM, TO, OFFSET
-    FROM = input("File to read the data from: ")
-    TO = input("File to write the data to: ")
-    OFFSET =  int(input("Time to delay the captions (millisecs): "))
+    FROM = TO = OFFSET = None
+    while FROM == None or TO == None or OFFSET == None:
+    	if FROM == None:
+    		FROM = input("File to read the data from: ")
+    		if not isValidPath(FROM):
+    			print("Your given path is not valid!")
+    			FROM = None
+    			continue # variable must to be filled again
+    	if TO == None:
+    		TO = input("File to write the data to: ")
+    		if not isValidPath(TO):
+    			print("Your given path is not valid!")
+    			TO = None
+    			continue # variable must to be filled again
+    	if OFFSET == None:
+    		try:
+    			OFFSET = int(input(
+    				"Time to delay the captions (millisecs): "
+    			))
+    		except:
+    			print("Your given offset value is not acceptable!")
+    			OFFSET = None
+    			continue # variable must to be filled again
+    	
 
-
-# CUSTOMIZABLE: customize 'do' func as you wish
+# CUSTOMIZABLE: customize 'do' function as you wish
 def do(fr):
     "This function tells the program to do what"
     global OFFSET
@@ -115,7 +160,7 @@ class Frame:
     caption = None
     
     def __init__(self, number: int, timecodes: tuple, caption: str):
-        if number > 0:
+        if number <= 0:
             raise Exception\
             ("Frame number cannot be negative or zero")
         self.number = number
@@ -129,11 +174,11 @@ class Frame:
         "Renders the frame as if it was in a SRT file"
         return \
         f"{self.number}\n"\
-        f"{self.start.hour}:{self.start.minute}:"\
-        f"{self.start.second},{self.start.microsecond}"\
-        f" --> {self.end.hour}:{self.end.minute}:"\
-        f"{self.end.second},{self.end.microsecond}"\
-        f"\n{self.caption}\n\n"
+        f"{self.start.hour:02}:{self.start.minute:02}:"\
+        f"{self.start.second:02},{self.start.microsecond:03}"\
+        f" --> {self.end.hour:02}:{self.end.minute:02}:"\
+        f"{self.end.second:02},{self.end.microsecond:03}"\
+        f"\n{self.caption}\n\n" # caption and blankline
 
     def setTimecodes(self, start, end):
         if isinstance(start, time) and isinstance(end, time):
@@ -145,7 +190,7 @@ class Frame:
 
 
 ### functions to extract desired data from the argument $line ###
-def frame_number(line: str, *):
+def frame_number(line: str):
     """Try to extract frame number from the given line
     To do it, this function tries to convert the 'line'
     parameter to a positive integer.
@@ -195,7 +240,6 @@ frame = {} #{'number': int, 'timecodes': (,), 'caption': ''}
 Variable 'STATE' contain the current (previous) state of the line.
 Variable 'EXPECTED' contain the state which is expected to be on
 the line at the point. it must be the current state of the line.
-
 Integer variable start with 'STATE_' are used to define line states.
 """
 
@@ -235,6 +279,7 @@ for line in read_file_splitted(FROM):
         caption = frame_caption(line, blank=True)
         if caption == True:
             # it's blankline, so do something!
+            print(frame)
             SUBTITLE.write(do(Frame(**frame))) # add it to the 
             STATE, EXPECTED = STATE_BLANK, STATE_FRAME
         else:
@@ -243,4 +288,4 @@ for line in read_file_splitted(FROM):
 
 
 SUBTITLE.write("\n\t\n\t\n")
-SUBTITLE.close()
+SUBTITLE.close() # True if all variables are valued
